@@ -115,13 +115,21 @@ public class CommentController {
             Comment savedComment = commentService.save(comment);
 
             //creamos una notificacion asociada a ese comentario  y la configuramos
+            // Obtener la notificación asociada desde el comentario
             Notification.CommentNotification notificationComment = savedComment.getNotification();
-            notificationComment.setMessage("Has recibido un comentario en tu publicacion!");
-            notificationComment.setSender(savedComment.getAuthor());
-            User postAuthor = this.postService.getUserByPostId(savedComment.getPost().getId());
-            notificationComment.setReceiver(postAuthor);  // Asumiendo que postAuthor está definido en tu código
-            notificationComment.setComment(savedComment);
-            this.notificationService.save(notificationComment);
+
+            // Si la notificación asociada es nula, crear una nueva instancia de notificación
+            if (notificationComment == null) {
+                notificationComment = new Notification.CommentNotification();
+                notificationComment.setMessage("Has recibido un comentario en tu publicacion!");
+                notificationComment.setSender(savedComment.getAuthor());
+                User postAuthor = this.postService.getUserByPostId(savedComment.getPost().getId());
+                notificationComment.setReceiver(postAuthor);  // Asumiendo que postAuthor está definido en tu código
+                notificationComment.setComment(savedComment);
+                this.notificationService.save(notificationComment);
+            }
+
+
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.registerModule(new JavaTimeModule());
             String json;
@@ -167,7 +175,7 @@ public class CommentController {
 
             // Verificar si hay una notificación y eliminarla
             if (notification != null) {
-                notificationService.eliminarNotification(notification);
+                notificationService.eliminar(notification);
             }
 
             // Eliminar el comentario

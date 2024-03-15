@@ -23,8 +23,18 @@ public class Comment {
 
     @ManyToOne
     private Post post;
-    @OneToOne(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
+
+    // Relación con la notificación de comentario
+    @OneToOne(mappedBy = "comment", cascade = CascadeType.ALL, optional = true)
     private Notification.CommentNotification notification;
+    //   cuando se elimine un comentario, se elimine automáticamente su notificación asociada
+    //   pero si se elimina una notificación, no afectará al comentario asociado.
+
+    public Comment() {
+        this.createdAt = LocalDateTime.now();
+    }
+
+    // Métodos getters y setters para los atributos
 
     public Notification.CommentNotification getNotification() {
         return notification;
@@ -32,10 +42,8 @@ public class Comment {
 
     public void setNotification(Notification.CommentNotification notification) {
         this.notification = notification;
-        if (notification != null) {
-            notification.setComment(this);
-        }
     }
+
 
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
@@ -81,15 +89,5 @@ public class Comment {
     }
 
 
-// Getters y setters u otros campos que puedas necesitar
 
-    // Constructor(s)
-    public Comment() {
-        this.createdAt = LocalDateTime.now();
-        this.notification = new Notification.CommentNotification();
-        this.notification.setComment(this);
-    }
-
-
-    // Métodos adicionales si los requieres
 }

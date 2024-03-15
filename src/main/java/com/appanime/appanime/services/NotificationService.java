@@ -33,6 +33,7 @@ public class NotificationService {
         return this.notificationRepository.findBySenderOrReceiver(sender,receiver);
 
     }
+
     public Optional<Notification> getNotificationById(Long id_notification){
             return this.notificationRepository.findById(id_notification);
 
@@ -40,12 +41,11 @@ public class NotificationService {
     public List<Notification> findRelatedNotifications(User sender, User receiver) {
         return notificationRepository.findRelatedNotifications(sender,receiver);
     }
-    public void eliminarNotification(Notification notification) {
-        notificationRepository.delete(notification);
-    }
+
 
 
     //elimina tanto las notificaciones de tipo request, como las de comments
+
     public void eliminar( Notification notification){
         this.notificationRepository.delete(notification);
 
@@ -81,10 +81,16 @@ public class NotificationService {
     }
 
     public void deleteFriendRequestNotification(User sender, User receiver) {
+        System.out.println("Vamos a eliminar notificación de solicitud de amistad.");
         Notification notification = notificationRepository.findBySenderAndReceiver(sender, receiver);
         if (notification != null) {
+            System.out.println("Notificación encontrada: " + notification.getId());
             notificationRepository.delete(notification);
+            System.out.println("Notificación eliminada exitosamente.");
+        } else {
+            System.out.println("Notificación no encontrada para el remitente y receptor especificados.");
         }
     }
+
 
 }

@@ -59,7 +59,7 @@ public class NotificationController {
     @DeleteMapping("/delete-notification/{id_notification}")
     public ResponseEntity<String> eliminarNotificacion(@PathVariable Long id_notification) {
         try {
-            Optional<Notification> exist_notification = this.notificationService.getNotificationById(id_notification);
+            Optional<Notification> exist_notification = notificationService.getNotificationById(id_notification);
             if (exist_notification.isPresent()) {
                 Notification notification = exist_notification.get();
                 notificationService.eliminar(notification);
@@ -71,6 +71,7 @@ public class NotificationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting notification");
         }
     }
+
 
 }
 

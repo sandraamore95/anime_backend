@@ -68,9 +68,16 @@ public class Notification {
     }
 // Getters, setters y constructores
 
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @Entity
     @DiscriminatorValue("CommentNotification")
     public static class CommentNotification extends Notification {
+        // Otros atributos y métodos
+
+        @OneToOne
+        @JoinColumn(name = "comment_id", unique = true)
+        private Comment comment;
+
         public Comment getComment() {
             return comment;
         }
@@ -78,13 +85,6 @@ public class Notification {
         public void setComment(Comment comment) {
             this.comment = comment;
         }
-
-        @OneToOne
-        @JoinColumn(name = "comment_id", unique = true)
-        private Comment comment;
-
-
     }
-
 
 }
