@@ -2,7 +2,6 @@ package com.appanime.appanime.services;
 
 import com.appanime.appanime.models.Notification;
 import com.appanime.appanime.models.User;
-import com.appanime.appanime.repository.NotificationCommentRepository;
 import com.appanime.appanime.repository.NotificationRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +12,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+
 public class NotificationService {
     @Autowired
     NotificationRepository notificationRepository;
-    @Autowired
-    NotificationCommentRepository notificationCommentRepository;
-
-
     public List<Notification> getAll() {
       return  this.notificationRepository.findAll();
     }
@@ -49,20 +45,10 @@ public class NotificationService {
     }
 
 
-    //tenemos que ver que tipo de notificacion es :
-    public void eliminar(String role, Long id_notification){
-        if(role.equals("Notification")){
-            Optional<Notification> notification= this.notificationRepository.findById(id_notification);
-            notification.ifPresent(value -> notificationRepository.delete(value));
-        }
-        else{
-            System.out.println("estamos aquiiiiiiiii en cooommdeb");
-            Optional<Notification.CommentNotification> notification=this.notificationCommentRepository.findById(id_notification);
-            System.out.println(notification.get().getId());
-            System.out.println(notification.get().getComment().getId());
-            this.notificationCommentRepository.delete(notification.get());
-           // notification.ifPresent(commentNotification -> notificationCommentRepository.delete(commentNotification));
-        }
+    //elimina tanto las notificaciones de tipo request, como las de comments
+    public void eliminar( Notification notification){
+        this.notificationRepository.delete(notification);
+
     }
 
 

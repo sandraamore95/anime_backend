@@ -8,6 +8,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -54,29 +56,22 @@ public class NotificationController {
         return notifications;
     }
 
-
-    //eliminar notificacion tanto de sender-receiver
-    //1 . sender ( cancela la solicitud )
-    //2. receiver (acepta/rechaza)
-
-
-
-    //FUNCIONA PARA NOTIFICACIONES DE TIPO -> REQUEST
-    // NO FUNCIONA PARA NOTIFICACIOENS DE TIPO COMMENT.
-
     @DeleteMapping("/delete-notification/{id_notification}")
-    public ResponseEntity<String> eliminarNotificacion(@PathVariable Long id_notification, @RequestParam("role") String role) {
-
-        System.out.println(role);
-        System.out.println(id_notification);
-           this.notificationService.eliminar(role ,id_notification);
-
-
-            System.out.println("SE HA ELIMINADO DE LA BD");
-            return ResponseEntity.ok("Notification deleted successfully");
-
-
+    public ResponseEntity<String> eliminarNotificacion(@PathVariable Long id_notification) {
+        try {
+            Optional<Notification> exist_notification = this.notificationService.getNotificationById(id_notification);
+            if (exist_notification.isPresent()) {
+                Notification notification = exist_notification.get();
+                notificationService.eliminar(notification);
+                return ResponseEntity.ok("Notification deleted successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Notification with ID " + id_notification + " not found");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting notification");
+        }
     }
+
 }
 
 

@@ -68,8 +68,8 @@ public class Notification {
     }
 // Getters, setters y constructores
 
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @Entity
+    @DiscriminatorValue("CommentNotification")
     public static class CommentNotification extends Notification {
         public Comment getComment() {
             return comment;
