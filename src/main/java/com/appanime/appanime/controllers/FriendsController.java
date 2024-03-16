@@ -102,6 +102,10 @@ public class FriendsController {
     }
 
 
+    // esto funciona para
+    //receiver 6 sender 4
+    //receiver 7 sender 5 ...
+    // NO FUNCIONA CUANDO receiver 6 sender 4 y hay otro receiver 6 sender 4 x (cantidad), porque se trata de notificaciones de comentarios
     @DeleteMapping("/cancel-request/{userId}")
     public ResponseEntity<String> cancelFriendRequest(@PathVariable Long userId, Principal principal) {
         String username = principal.getName();
@@ -129,7 +133,7 @@ public class FriendsController {
             User sender = userService.getUserById(userId);
             User receiver = userService.getUserByUsername(username);
 
-            notificationService.deleteFriendRequestNotification(receiver, sender);
+            notificationService.deleteFriendRequestNotification(sender, receiver);
             // Aceptar la solicitud de amistad utilizando el servicio
             friendshipService.acceptFriendRequest(sender, receiver);
 

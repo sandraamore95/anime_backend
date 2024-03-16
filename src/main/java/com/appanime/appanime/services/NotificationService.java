@@ -81,14 +81,11 @@ public class NotificationService {
     }
 
     public void deleteFriendRequestNotification(User sender, User receiver) {
-        System.out.println("Vamos a eliminar notificación de solicitud de amistad.");
         Notification notification = notificationRepository.findBySenderAndReceiver(sender, receiver);
         if (notification != null) {
-            System.out.println("Notificación encontrada: " + notification.getId());
+            System.out.println("estamos en lak noti");
+            System.out.println(notification.getId());
             notificationRepository.delete(notification);
-            System.out.println("Notificación eliminada exitosamente.");
-        } else {
-            System.out.println("Notificación no encontrada para el remitente y receptor especificados.");
         }
     }
 
