@@ -44,9 +44,10 @@ public class NotificationService {
 
 
 
-    //elimina tanto las notificaciones de tipo request, como las de comments
+    //ELIMINA NOTIFICACION DE TIPO COMMENT
 
     public void eliminar( Notification notification){
+        System.out.println("VAMOS A ELIMINAR LA NOTIFICACION DE COMMENT");
         this.notificationRepository.delete(notification);
 
     }
@@ -80,6 +81,7 @@ public class NotificationService {
         this.notificationRepository.deleteBySenderIdOrReceiverId(userId,userId);
     }
 
+    //ELIMINAR NOTIFICACION DE TIPO REQUEST
     public void deleteFriendRequestNotification(User sender, User receiver) {
         Notification notification = notificationRepository.findBySenderAndReceiver(sender, receiver);
         if (notification != null) {

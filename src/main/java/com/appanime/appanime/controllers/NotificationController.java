@@ -61,6 +61,7 @@ public class NotificationController {
         try {
             Optional<Notification> exist_notification = notificationService.getNotificationById(id_notification);
             if (exist_notification.isPresent()) {
+                System.out.println("NOTIFICACION EXISTE !");
                 Notification notification = exist_notification.get();
                 notificationService.eliminar(notification);
                 return ResponseEntity.ok("Notification deleted successfully");
