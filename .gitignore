@@ -36,3 +36,10 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+
+# Ignorar todo dentro de la carpeta de avatares
+images/avatar/*
+
+# Ignorar todo dentro de la carpeta de posts
+images/posts/*
