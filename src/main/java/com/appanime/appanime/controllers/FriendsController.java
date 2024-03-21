@@ -167,7 +167,15 @@ public class FriendsController {
             User receiver = userService.getUserById(userId);
 
 
-            notificationService.deleteFriendRequestNotification(receiver, sender);
+            List<Notification> notifications = this.notificationService.findNotifications(receiver, sender);
+            for (Notification notification : notifications) {
+
+                if(notification.getDtype().equals("Notification")){
+                    //eliminamos la notificacion asociada
+                    this.notificationService.eliminar(notification);
+                }
+            }
+
             // Rechazar la solicitud de amistad utilizando el servicio
             friendshipService.cancelFriendRequest(receiver, sender);
 
