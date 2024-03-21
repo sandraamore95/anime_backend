@@ -61,12 +61,29 @@ public class NotificationController {
         try {
             Optional<Notification> exist_notification = notificationService.getNotificationById(id_notification);
             if (exist_notification.isPresent()) {
-                notificationService.eliminar(exist_notification.get());
+                Notification.CommentNotification commentNotification = (Notification.CommentNotification) exist_notification.get();
+
+                // Crear una nueva instancia de Notification
+                Notification notification = new Notification();
+
+                // Copiar los atributos relevantes de la instancia de CommentNotification a la instancia de Notification
+                notification.setId(commentNotification.getId());
+                notification.setMessage(commentNotification.getMessage());
+                notification.setSender(commentNotification.getSender());
+                notification.setReceiver(commentNotification.getReceiver());
+
+                notificationService.save(notification); // Guardar la notificación
+
+
+
+                // Eliminar la instancia original de CommentNotification
+                notificationService.eliminar(notification);
                 return ResponseEntity.ok("Notification deleted successfully");
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Notification with ID " + id_notification + " not found");
             }
         } catch (Exception e) {
+            System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting notification");
         }
     }

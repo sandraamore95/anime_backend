@@ -65,9 +65,13 @@ public class NotificationService {
         return this.notificationRepository.findBySenderOrReceiver(sender,receiver);
     }
 
-    public void eliminar( Notification notification){
+    @Transactional
+    public void eliminar(Notification notification) {
         this.notificationRepository.delete(notification);
-
+    }
+    @Transactional
+    public void actualizar(Notification notification) {
+        notificationRepository.save(notification);
     }
     public Notification getNotificationbyReceiverandSender(User receiver, User sender) {
         return this.notificationRepository.findByReceiverAndSender(receiver,sender);

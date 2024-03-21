@@ -16,7 +16,7 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
     Notification findBySender(User user);
     Notification findByReceiver(User user);
 
-    void delete(Notification notification);
+
     List<Notification> findBySenderOrReceiver(User sender, User receiver);
 
     @Query("SELECT n FROM Notification n " +
