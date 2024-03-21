@@ -112,15 +112,7 @@ public class FriendsController {
             User receiver = userService.getUserById(userId);
 
             //recorremos las notificaciones sender x receiver y buscamos la de tipo _> Notification para eliminar solo los registros correctos.
-            //asi no hay problema de tuplas
-            List<Notification> notifications = this.notificationService.findNotifications(sender, receiver);
-            for (Notification notification : notifications) {
-
-                if(notification.getDtype().equals("Notification")){
-                    //eliminamos la notificacion asociada
-                   this.notificationService.eliminar(notification);
-                }
-            }
+            deleteNotificationRequest(sender,receiver);
             // cancelar la solicitud de amistad utilizando el servicio
             friendshipService.cancelFriendRequest(sender, receiver);
 
@@ -139,14 +131,7 @@ public class FriendsController {
             User sender = userService.getUserById(userId);
             User receiver = userService.getUserByUsername(username);
 
-            List<Notification> notifications = this.notificationService.findNotifications(sender, receiver);
-            for (Notification notification : notifications) {
-
-                if(notification.getDtype().equals("Notification")){
-                    //eliminamos la notificacion asociada
-                    this.notificationService.eliminar(notification);
-                }
-            }
+            deleteNotificationRequest(sender,receiver);
 
             // Aceptar la solicitud de amistad utilizando el servicio
             friendshipService.acceptFriendRequest(sender, receiver);
@@ -166,16 +151,7 @@ public class FriendsController {
             User sender = userService.getUserByUsername(username);
             User receiver = userService.getUserById(userId);
 
-
-            List<Notification> notifications = this.notificationService.findNotifications(receiver, sender);
-            for (Notification notification : notifications) {
-
-                if(notification.getDtype().equals("Notification")){
-                    //eliminamos la notificacion asociada
-                    this.notificationService.eliminar(notification);
-                }
-            }
-
+            deleteNotificationRequest(receiver,sender);
             // Rechazar la solicitud de amistad utilizando el servicio
             friendshipService.cancelFriendRequest(receiver, sender);
 
@@ -246,6 +222,17 @@ public class FriendsController {
         } catch (Exception e) {
             // Manejar errores y devolver un código de estado apropiado
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false);
+        }
+    }
+
+
+
+    private void deleteNotificationRequest(User sender, User receiver) {
+        List<Notification> notifications = notificationService.findNotifications(sender, receiver);
+        for (Notification notification : notifications) {
+            if ("Notification".equals(notification.getDtype())) {
+                this.notificationService.eliminar(notification);
+            }
         }
     }
 
