@@ -74,7 +74,7 @@ public class Notification {
     public static class CommentNotification extends Notification {
         // Otros atributos y métodos
 
-        @OneToOne
+        @OneToOne(cascade = CascadeType.REMOVE)
         @JoinColumn(name = "comment_id", unique = true)
         private Comment comment;
 

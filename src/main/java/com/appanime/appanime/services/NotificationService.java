@@ -38,6 +38,25 @@ public class NotificationService {
             return this.notificationRepository.findById(id_notification);
 
     }
+    public Notification.CommentNotification getCommentNotification(Long id_notification) {
+        Optional<Notification> optionalNotification = notificationRepository.findById(id_notification);
+
+        // Verificar si la notificación se encuentra
+        if (optionalNotification.isPresent()) {
+            Notification notification = optionalNotification.get();
+            if (notification instanceof Notification.CommentNotification) {
+                return (Notification.CommentNotification) notification;
+            } else {
+                // Manejar el caso donde la notificación no es una CommentNotification
+                return null;
+            }
+        } else {
+            // Manejar el caso donde la notificación no se encuentra
+            // Puedes lanzar una excepción, devolver null o manejarlo de alguna otra forma según tus requerimientos.
+            // Aquí simplemente devolvemos null.
+            return null;
+        }
+    }
     public List<Notification> findRelatedNotifications(User sender, User receiver) {
         return notificationRepository.findRelatedNotifications(sender,receiver);
     }
@@ -46,17 +65,10 @@ public class NotificationService {
         return this.notificationRepository.findBySenderOrReceiver(sender,receiver);
     }
 
-
-
-    //ELIMINA NOTIFICACION DE TIPO COMMENT
-
     public void eliminar( Notification notification){
-        System.out.println("VAMOS A ELIMINAR LA NOTIFICACION DE COMMENT");
         this.notificationRepository.delete(notification);
 
     }
-
-
     public Notification getNotificationbyReceiverandSender(User receiver, User sender) {
         return this.notificationRepository.findByReceiverAndSender(receiver,sender);
     }
