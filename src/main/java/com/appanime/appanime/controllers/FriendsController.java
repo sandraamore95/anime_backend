@@ -102,10 +102,7 @@ public class FriendsController {
     }
 
 
-    // esto funciona para
-    //receiver 6 sender 4
-    //receiver 7 sender 5 ...
-    // NO FUNCIONA CUANDO receiver 6 sender 4 y hay otro receiver 6 sender 4 x (cantidad), porque se trata de notificaciones de comentarios
+
     @DeleteMapping("/cancel-request/{userId}")
     public ResponseEntity<String> cancelFriendRequest(@PathVariable Long userId, Principal principal) {
         String username = principal.getName();
@@ -113,8 +110,17 @@ public class FriendsController {
         try {
             User sender = userService.getUserByUsername(username);
             User receiver = userService.getUserById(userId);
-            //eliminamos la notificacion asociada
-            notificationService.deleteFriendRequestNotification(sender, receiver);
+
+            //recorremos las notificaciones sender x receiver y buscamos la de tipo _> Notification para eliminar solo los registros correctos.
+            //asi no hay problema de tuplas
+            List<Notification> notifications = this.notificationService.findNotifications(sender, receiver);
+            for (Notification notification : notifications) {
+
+                if(notification.getDtype().equals("Notification")){
+                    //eliminamos la notificacion asociada
+                   this.notificationService.eliminar(notification);
+                }
+            }
             // cancelar la solicitud de amistad utilizando el servicio
             friendshipService.cancelFriendRequest(sender, receiver);
 

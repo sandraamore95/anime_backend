@@ -42,6 +42,10 @@ public class NotificationService {
         return notificationRepository.findRelatedNotifications(sender,receiver);
     }
 
+    public List <Notification> findNotifications(User sender, User receiver){
+        return this.notificationRepository.findBySenderOrReceiver(sender,receiver);
+    }
+
 
 
     //ELIMINA NOTIFICACION DE TIPO COMMENT
