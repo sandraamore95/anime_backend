@@ -170,15 +170,7 @@ public class CommentController {
         Optional<Comment> existComment = this.commentService.getCommentbyId(id_comment);
 
         if (existComment.isPresent()) {
-            // Obtener la notificación asociada al comentario
-            Notification.CommentNotification notification = existComment.get().getNotification();
-
-            // Verificar si hay una notificación y eliminarla
-            if (notification != null) {
-                notificationService.eliminar(notification);
-            }
-
-            // Eliminar el comentario
+            // Eliminar el comentario y la notificacion asociada por CASCADE
             commentService.eliminarComment(existComment.get());
 
             if(isAdmin){
