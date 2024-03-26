@@ -54,6 +54,7 @@ public class AccountController {
     @Autowired
     UtilService utilService;
 
+    @ResponseBody
     @PostMapping("/delete-account")
     public String deleteAccount(@RequestBody Map<String, String> requestBody, RedirectAttributes redirectAttributes,Principal principal) throws IOException {
 
