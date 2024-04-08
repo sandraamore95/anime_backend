@@ -34,8 +34,7 @@ public class FriendsController {
 
 
     @GetMapping("/all")
-    public ResponseEntity<List<User>> getFriendsByUser(Principal principal) {
-        String username = principal.getName();
+    public ResponseEntity<List<User>> getFriendsByUser(@PathVariable String username) {
         User user = this.userService.getUserByUsername(username);
         List<Friendship> friends = this.friendshipService.getAllFriendships(user);
         List<User> friendsUser = new ArrayList<>();
