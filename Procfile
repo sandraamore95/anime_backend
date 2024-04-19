@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -jar target/animeHub-backend.jar
+web: java -Dserver.port=8080 -jar target/animeHub-backend.jar
