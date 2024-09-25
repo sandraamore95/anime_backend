@@ -44,17 +44,12 @@ public class User {
 
   @JsonIgnore // Evita la serialización de la lista friendships
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-  private List<Friendship> friendships = new ArrayList<>();
 
 
   @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
   private Profile profile;
 
 
-  public void addFriend(User friend) {
-    Friendship friendship = new Friendship(this, friend);
-    friendships.add(friendship);
-  }
 
   //RELACION UNO A MUCHOS PARA AGREGAR AMIGOS
   public User() {
@@ -67,13 +62,6 @@ public class User {
 
   }
 
-  public List<Friendship> getFriendships() {
-    return friendships;
-  }
-
-  public void setFriendships(List<Friendship> friendships) {
-    this.friendships = friendships;
-  }
 
   public Long getId() {
     return id;

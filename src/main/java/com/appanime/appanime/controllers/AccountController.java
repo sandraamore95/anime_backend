@@ -36,14 +36,11 @@ public class AccountController {
     @Autowired
     AccountService accountService;
     @Autowired
-    FriendService friendService;
-    @Autowired
     CommentService commentService;
     @Autowired
     NotificationService notificationService;
     @Autowired
     PostService postService;
-
     @Autowired
     FavoritePostsService favoritePostsService;
     @Autowired
@@ -118,9 +115,6 @@ public class AccountController {
     public void deleteUserRelationships(User user) throws IOException {
 
         System.out.println("DELETE ACCCOUNT");
-        // Eliminar todas las relaciones de amistad
-        deleteFriends(user);
-
         //Eliminar las publicaciones favoritas relacionadas con el usuario
         deleteFavoritePosts(user);
 
@@ -223,9 +217,7 @@ public class AccountController {
         accountService.save(account);
 
     }
-    private void deleteFriends(User user) {
-        friendService.deleteFriendshipsAndRelatedRequestsByUserId(user.getId());
-    }
+
 
     //Eliminar las publicaciones favoritas que esta usando otro usuario y el post el del usuario
     private void deleteFavoritePosts(User user) {

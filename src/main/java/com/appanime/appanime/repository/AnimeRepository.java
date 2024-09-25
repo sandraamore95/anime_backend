@@ -1,8 +1,6 @@
 package com.appanime.appanime.repository;
 
 import com.appanime.appanime.models.Anime;
-import com.appanime.appanime.models.User;
-import com.appanime.appanime.payload.request.FriendshipRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

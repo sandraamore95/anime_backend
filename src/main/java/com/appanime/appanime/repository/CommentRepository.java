@@ -1,7 +1,6 @@
 package com.appanime.appanime.repository;
 
 import com.appanime.appanime.models.Comment;
-import com.appanime.appanime.models.Friendship;
 import com.appanime.appanime.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

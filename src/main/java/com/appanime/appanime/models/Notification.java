@@ -1,6 +1,5 @@
 package com.appanime.appanime.models;
 
-import com.appanime.appanime.payload.request.FriendshipRequest;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;

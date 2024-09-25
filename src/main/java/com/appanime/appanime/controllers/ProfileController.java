@@ -1,11 +1,8 @@
 package com.appanime.appanime.controllers;
 
-import com.appanime.appanime.models.Anime;
 import com.appanime.appanime.models.Profile;
 import com.appanime.appanime.models.User;
-import com.appanime.appanime.payload.request.FriendshipRequest;
 import com.appanime.appanime.security.services.UserService;
-import com.appanime.appanime.services.AnimeService;
 import com.appanime.appanime.services.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
 import java.security.Principal;
-import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController

@@ -2,7 +2,6 @@ package com.appanime.appanime.controllers;
 
 import com.appanime.appanime.models.Anime;
 import com.appanime.appanime.models.User;
-import com.appanime.appanime.payload.request.FriendshipRequest;
 import com.appanime.appanime.security.services.UserService;
 import com.appanime.appanime.services.AnimeService;
 import org.springframework.beans.factory.annotation.Autowired;

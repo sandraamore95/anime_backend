@@ -1,7 +1,6 @@
 package com.appanime.appanime.services;
 
 import com.appanime.appanime.models.Anime;
-import com.appanime.appanime.models.Friendship;
 import com.appanime.appanime.repository.AnimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
