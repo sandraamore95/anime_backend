@@ -92,19 +92,38 @@ public class FollowController {
     }
 
 
-    // Obtener la lista de usuarios que sigue el usuario autenticado
-    @GetMapping("/following")
-    public ResponseEntity<List<User>> getFollowing(Principal principal) {
-        User follower = userService.getUserByUsername(principal.getName());
-        List<User> following = followService.getFollowing(follower);
-        return ResponseEntity.ok(following);
+    // Obtener la lista de usuarios que sigue otro usuario por su ID
+    @GetMapping("/following/{userId}")
+    public ResponseEntity<?> getFollowing(@PathVariable Long userId) {
+        try {
+            User follower = userService.getUserById(userId); // Esto lanzará RuntimeException si no encuentra el usuario
+            List<User> following = followService.getFollowing(follower);
+            return ResponseEntity.ok(following);
+        } catch (RuntimeException e) {
+            // Captura cuando el usuario no es encontrado
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            // Manejo genérico de otras excepciones
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Ocurrió un error al obtener los usuarios seguidos: " + e.getMessage());
+        }
     }
 
-    // Obtener la lista de seguidores del usuario autenticado
-    @GetMapping("/followers")
-    public ResponseEntity<List<User>> getFollowers(Principal principal) {
-        User followed = userService.getUserByUsername(principal.getName());
-        List<User> followers = followService.getFollowers(followed);
-        return ResponseEntity.ok(followers);
+    // Obtener la lista de seguidores de otro usuario por su ID
+    @GetMapping("/followers/{userId}")
+    public ResponseEntity<?> getFollowers(@PathVariable Long userId) {
+        try {
+            User followed = userService.getUserById(userId); // Esto lanzará RuntimeException si no encuentra el usuario
+            List<User> followers = followService.getFollowers(followed);
+            return ResponseEntity.ok(followers);
+        } catch (RuntimeException e) {
+            // Captura cuando el usuario no es encontrado
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            // Manejo genérico de otras excepciones
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Ocurrió un error al obtener los seguidores: " + e.getMessage());
+        }
     }
+
 }
