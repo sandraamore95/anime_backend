@@ -91,6 +91,7 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
                     "/api/test/**",
                     "/api/anime/**",
                     "/api/friends/**",
+                    "/api/follows/**",
                     "/api/notifications/**",
                     "/api/favoritePosts/**",
                     "/api/account/**",

@@ -29,8 +29,10 @@ public class SpringBootSecurityJwtApplication {
 		SpringApplication.run(SpringBootSecurityJwtApplication.class, args);
 	}
 	@PostConstruct
-/*
+
 public void init() {
+
+	/*
 		System.out.println("estamos aqui!");
 		Role adminRol = new Role();
 		adminRol.setName(ERole.ROLE_ADMIN);
@@ -61,10 +63,11 @@ public void init() {
 		user.getRoles().add(userRol);
 		userRepository.save(user);
 		// hay que agregar un profile para este usuario
-
+*/
 
 	}
-*/
+
+
 	public PasswordEncoder encryptPassw() {
 		return new BCryptPasswordEncoder();
 	}
