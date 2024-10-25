@@ -44,10 +44,10 @@ public class NotificationController {
 
         switch (role) {
             case "receiver":
-                notifications = notificationService.getAllbyUserReceiver(user);
+                notifications = notificationService.getAllByUserFollowed(user);
                 break;
             case "sender":
-                notifications = notificationService.getAllbyUserSender(user);
+                notifications = notificationService.getAllByUserFollower(user);
                 break;
             default:
                 notifications = Collections.emptyList(); // Devolver una lista vacía en este caso
@@ -69,8 +69,8 @@ public class NotificationController {
                 // Copiar los atributos relevantes de la instancia de CommentNotification a la instancia de Notification
                 notification.setId(commentNotification.getId());
                 notification.setMessage(commentNotification.getMessage());
-                notification.setSender(commentNotification.getSender());
-                notification.setReceiver(commentNotification.getReceiver());
+                notification.setFollower(commentNotification.getFollower());
+                notification.setFollowed(commentNotification.getFollowed());
 
                 notificationService.save(notification); // Guardar la notificación
 

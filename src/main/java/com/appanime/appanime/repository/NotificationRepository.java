@@ -13,23 +13,28 @@ import java.util.Optional;
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
 
 
-    Notification findBySender(User user);
-    Notification findByReceiver(User user);
+    List<Notification> findByFollower(User follower);
+    List<Notification> findByFollowed(User followed);
 
 
-    List<Notification> findBySenderOrReceiver(User sender, User receiver);
+    List<Notification> findByFollowerOrFollowed(User follower, User followed);
+
 
     @Query("SELECT n FROM Notification n " +
             "WHERE EXISTS (SELECT 1 FROM Notification n2 " +
-            "              WHERE n.sender = n2.receiver AND n.receiver = n2.sender)")
-    List<Notification> findRelatedNotifications(User sender, User receiver);
-    Notification findByReceiverAndSender(User receiver, User sender);
-    Notification findBySenderAndReceiver(User sender, User receiver);
-    List<Notification> findAllByReceiver(User user);
-
-    List<Notification> findAllBySender(User user);
+            "              WHERE n.follower = n2.followed AND n.followed = n2.follower)")
+    List<Notification> findRelatedNotifications(User follower, User followed);
 
 
+    Notification findByFollowedAndFollower(User followed, User follower);
+    Notification findByFollowerAndFollowed(User follower, User followed);
 
-    void deleteBySenderIdOrReceiverId(Long senderId,Long receiverId);
+    // Obtener todas las notificaciones para un usuario que es seguido
+    List<Notification> findAllByFollowed(User followed);
+
+    // Obtener todas las notificaciones para un usuario que es seguidor
+    List<Notification> findAllByFollower(User follower);
+
+
+    void deleteByFollowerIdOrFollowedId(Long followerId, Long followedId);
 }

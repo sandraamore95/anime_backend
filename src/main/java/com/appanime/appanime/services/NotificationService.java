@@ -17,76 +17,52 @@ public class NotificationService {
     @Autowired
     NotificationRepository notificationRepository;
     public List<Notification> getAll() {
-      return  this.notificationRepository.findAll();
+        return this.notificationRepository.findAll();
     }
 
-    public List<Notification> getAllbyUserReceiver(User user) {
-        return this.notificationRepository.findAllByReceiver(user);
-
-    }
-    public List<Notification> getAllbyUserSender(User user) {
-        return this.notificationRepository.findAllBySender(user);
-
+    public List<Notification> getAllByUserFollowed(User followed) {
+        return this.notificationRepository.findAllByFollowed(followed);
     }
 
-    public List<Notification> getNotificationbySenderorReceiver(User sender,User receiver) {
-        return this.notificationRepository.findBySenderOrReceiver(sender,receiver);
-
+    public List<Notification> getAllByUserFollower(User follower) {
+        return this.notificationRepository.findAllByFollower(follower);
     }
 
-    public Optional<Notification> getNotificationById(Long id_notification){
-            return this.notificationRepository.findById(id_notification);
-
+    public Optional<Notification> getNotificationById(Long idNotification) {
+        return this.notificationRepository.findById(idNotification);
     }
-    public Notification.CommentNotification getCommentNotification(Long id_notification) {
-        Optional<Notification> optionalNotification = notificationRepository.findById(id_notification);
 
-        // Verificar si la notificación se encuentra
+    public Notification.CommentNotification getCommentNotification(Long idNotification) {
+        Optional<Notification> optionalNotification = notificationRepository.findById(idNotification);
+
         if (optionalNotification.isPresent()) {
             Notification notification = optionalNotification.get();
             if (notification instanceof Notification.CommentNotification) {
                 return (Notification.CommentNotification) notification;
             } else {
-                // Manejar el caso donde la notificación no es una CommentNotification
-                return null;
+                return null; // Manejo de casos donde no es una CommentNotification
             }
         } else {
-            // Manejar el caso donde la notificación no se encuentra
-            // Puedes lanzar una excepción, devolver null o manejarlo de alguna otra forma según tus requerimientos.
-            // Aquí simplemente devolvemos null.
-            return null;
+            return null; // Manejo de casos donde no se encuentra la notificación
         }
     }
-    public List<Notification> findRelatedNotifications(User sender, User receiver) {
-        return notificationRepository.findRelatedNotifications(sender,receiver);
-    }
 
-    public List <Notification> findNotifications(User sender, User receiver){
-        return this.notificationRepository.findBySenderOrReceiver(sender,receiver);
+    public List<Notification> findRelatedNotifications(User follower, User followed) {
+        return notificationRepository.findRelatedNotifications(follower, followed);
     }
 
     @Transactional
     public void eliminar(Notification notification) {
         this.notificationRepository.delete(notification);
     }
+
     @Transactional
     public void actualizar(Notification notification) {
         notificationRepository.save(notification);
     }
-    public Notification getNotificationbyReceiverandSender(User receiver, User sender) {
-        return this.notificationRepository.findByReceiverAndSender(receiver,sender);
-    }
 
-    public Notification getNotificationbyReceiver(User receiver) {
-        return this.notificationRepository.findByReceiver(receiver);
-    }
-
-    public Notification getNotificationbySender(User loggedInUser) {
-        return this.notificationRepository.findBySender(loggedInUser);
-    }
-
-    public Notification getNotificationbySenderandReceiver(User sender,User receiver) {
-        return this.notificationRepository.findBySenderAndReceiver(sender,receiver);
+    public Notification getNotificationByFollowerAndFollowed(User follower, User followed) {
+        return this.notificationRepository.findByFollowedAndFollower(followed, follower);
     }
 
     @Transactional
@@ -94,19 +70,15 @@ public class NotificationService {
         this.notificationRepository.save(notification);
     }
 
-
-
     @Transactional
-    public  void deleteNotificationsByUser(Long userId) {
-        this.notificationRepository.deleteBySenderIdOrReceiverId(userId,userId);
+    public void deleteNotificationsByUser(Long userId) {
+        this.notificationRepository.deleteByFollowerIdOrFollowedId(userId, userId);
     }
 
-    //ELIMINAR NOTIFICACION DE TIPO REQUEST
-    public void deleteFriendRequestNotification(User sender, User receiver) {
-        Notification notification = notificationRepository.findBySenderAndReceiver(sender, receiver);
+    // ELIMINAR NOTIFICACION DE TIPO COMMENT
+    public void deleteCommentNotification(User follower, User followed) {
+        Notification notification = notificationRepository.findByFollowerAndFollowed(follower, followed);
         if (notification != null) {
-            System.out.println("estamos en lak noti");
-            System.out.println(notification.getId());
             notificationRepository.delete(notification);
         }
     }

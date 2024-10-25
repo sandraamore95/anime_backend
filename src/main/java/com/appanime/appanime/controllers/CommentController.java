@@ -122,9 +122,9 @@ public class CommentController {
             if (notificationComment == null) {
                 notificationComment = new Notification.CommentNotification();
                 notificationComment.setMessage("Has recibido un comentario en tu publicacion!");
-                notificationComment.setSender(savedComment.getAuthor());
+                notificationComment.setFollower(savedComment.getAuthor());
                 User postAuthor = this.postService.getUserByPostId(savedComment.getPost().getId());
-                notificationComment.setReceiver(postAuthor);  // Asumiendo que postAuthor está definido en tu código
+                notificationComment.setFollowed(postAuthor);  // Asumiendo que postAuthor está definido en tu código
                 notificationComment.setComment(savedComment);
                 this.notificationService.save(notificationComment);
             }

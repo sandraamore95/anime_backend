@@ -24,14 +24,15 @@ public class Notification {
     private String dtype;
     private String message;
 
+    // Usuario que sigue a otro usuario
     @ManyToOne
-    @JoinColumn(name = "sender_id")
-    private User sender;
+    @JoinColumn(name = "follower_id", nullable = false)
+    private User follower;
 
+    // Usuario que es seguido
     @ManyToOne
-    @JoinColumn(name = "receiver_id")
-    private User receiver;
-
+    @JoinColumn(name = "followed_id", nullable = false)
+    private User followed;
 
 
     public Long getId() {
@@ -50,21 +51,22 @@ public class Notification {
         this.message = message;
     }
 
-    public User getSender() {
-        return sender;
+    public User getFollower() {
+        return follower;
     }
 
-    public void setSender(User sender) {
-        this.sender = sender;
+    public void setFollower(User follower) {
+        this.follower = follower;
     }
 
-    public User getReceiver() {
-        return receiver;
+    public User getFollowed() {
+        return followed;
     }
 
-    public void setReceiver(User receiver) {
-        this.receiver = receiver;
+    public void setFollowed(User followed) {
+        this.followed = followed;
     }
+
 // Getters, setters y constructores
 
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
