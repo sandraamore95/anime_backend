@@ -42,7 +42,7 @@ public class FollowController {
 
             // Enviar notificación de Seguimiento
             Notification notification = new Notification();
-            notification.setMessage(followed.getUsername()+"Te ha seguido");
+            notification.setMessage(follower.getUsername()+"Te ha seguido");
             notification.setFollower(follower);
             notification.setFollowed(followed);
             notificationService.save(notification); // Guardar la notificación
