@@ -1,7 +1,9 @@
 package com.appanime.appanime.controllers;
+import com.appanime.appanime.models.Notification;
 import com.appanime.appanime.models.User;
 import com.appanime.appanime.security.services.UserService;
 import com.appanime.appanime.services.FollowService;
+import com.appanime.appanime.services.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,9 @@ public class FollowController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    NotificationService notificationService;
+
     // Seguir a un usuario
     @PostMapping("/follow/{userId}")
     public ResponseEntity<String> followUser(@PathVariable Long userId, Principal principal) {
@@ -34,6 +39,13 @@ public class FollowController {
             }
 
             followService.followUser(follower, followed);
+
+            // Enviar notificación de Seguimiento
+            Notification notification = new Notification();
+            notification.setMessage(followed.getUsername()+"Te ha seguido");
+            notification.setFollower(follower);
+            notification.setFollowed(followed);
+            notificationService.save(notification); // Guardar la notificación
 
             return ResponseEntity.ok("Has comenzado a seguir a " + followed.getUsername());
         } catch (RuntimeException e) {
