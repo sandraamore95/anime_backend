@@ -46,6 +46,8 @@ public class AccountController {
     @Autowired
     AnimeService animeService;
     @Autowired
+    FollowService followService;
+    @Autowired
     ProfileService profileService;
 
     @Autowired
@@ -115,6 +117,12 @@ public class AccountController {
     public void deleteUserRelationships(User user) throws IOException {
 
         System.out.println("DELETE ACCCOUNT");
+
+
+        // Eliminar todas las relaciones de amistad
+        deleteFollow(user);
+
+
         //Eliminar las publicaciones favoritas relacionadas con el usuario
         deleteFavoritePosts(user);
 
@@ -218,6 +226,9 @@ public class AccountController {
 
     }
 
+    private void deleteFollow(User user) {
+        followService.deleteFollowsAndRelatedRequestsByUserId(user.getId());
+    }
 
     //Eliminar las publicaciones favoritas que esta usando otro usuario y el post el del usuario
     private void deleteFavoritePosts(User user) {

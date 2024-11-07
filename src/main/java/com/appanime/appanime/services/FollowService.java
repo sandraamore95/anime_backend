@@ -3,6 +3,7 @@ import com.appanime.appanime.models.Follow;
 import com.appanime.appanime.models.User;
 import com.appanime.appanime.repository.FollowRepository;
 import com.appanime.appanime.security.services.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -52,5 +53,13 @@ public class FollowService {
         List<Follow> followers = followRepository.findByFollowed(followed);
         return followers.stream().map(Follow::getFollower).collect(Collectors.toList());
     }
+    @Transactional
+    public void deleteFollowsAndRelatedRequestsByUserId(Long userId) {
+        // Eliminar relaciones de seguimiento donde el usuario es follower o followed
+        followRepository.deleteByFollowerIdOrFollowedId(userId, userId);
+
+    }
+
+
 }
 
