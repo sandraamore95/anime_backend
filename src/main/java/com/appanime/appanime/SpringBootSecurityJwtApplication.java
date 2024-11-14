@@ -1,11 +1,13 @@
 package com.appanime.appanime;
 import com.appanime.appanime.models.ERole;
+import com.appanime.appanime.models.Profile;
 import com.appanime.appanime.models.Role;
 import com.appanime.appanime.models.User;
 import com.appanime.appanime.repository.RoleRepository;
 import com.appanime.appanime.repository.UserRepository;
 
 
+import com.appanime.appanime.services.ProfileService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -23,6 +25,10 @@ public class SpringBootSecurityJwtApplication {
 	private UserRepository userRepository;
 	@Autowired
 	private RoleRepository rolRepository;
+
+	@Autowired
+	private ProfileService profileService;
+
 	public static void main(String[] args) {
 
 		System.out.println("Spring Version:" + SpringVersion.getVersion());
@@ -62,9 +68,16 @@ public void init() {
 		System.out.println(user.getPassword());
 		user.getRoles().add(userRol);
 		userRepository.save(user);
-		// hay que agregar un profile para este usuario
-*/
 
+            // Crear una nueva instancia de Profile
+            Profile profile = new Profile();
+            profile.setUser(user);
+            profile.setUsername(user.getUsername());
+            profile.setAbout("Bienvenid@s a mi Perfil ! :)");
+
+            // Guardar el perfil en la base de datos
+            profileService.saveProfile(profile);
+*/
 	}
 
 
